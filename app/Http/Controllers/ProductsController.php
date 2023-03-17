@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+
 class ProductsController extends Controller
 {
     /**
@@ -14,11 +15,24 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $product = Product::all();
-        return response()->json([
-            'data' => $product,
-            'msg2' => 'Lista de productos'
-        ],200);
+        $products = Product::all();
+
+        return view('pantallas.listProducts', compact('products'));
+        // return response()->json([
+        //     'data' => $product,
+        //     'msg2' => 'Lista de productos'
+        // ],200);
+    }
+
+    public function index2()
+    {
+        $products = Product::all();
+
+        return view('home', compact('products'));
+        // return response()->json([
+        //     'data' => $product,
+        //     'msg2' => 'Lista de productos'
+        // ],200);
     }
 
     /**
@@ -28,7 +42,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('pantallas.createProduct');
     }
 
     /**
@@ -44,12 +59,29 @@ class ProductsController extends Controller
         $product->description = $request->input('description');
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
-        $product->photo = $request->input('photo');
+        //$product->photo = $request->input('photo');
+
+        if($request->file('file'))
+        {
+            $file=$request->file('file');
+            $filename=time().'.'.$file->getClientOriginalExtension();
+            $request->file->move('stortage', $filename);
+            $product->photo=$filename;
+        }
+        // $product->product_name = $request->product_name;
+        // $product->description = $request->description;
+        // $product->price = $request->price;
+        // $product->stock = $request->stock;
+        // //$product->photo = $request->input('photo');
+
+        // //$product->photo = $request->file->store('products');
         $product->save();
-        return response()->json([
-                'data' => $product,
-                'msg2' => 'Producto creado con exito'
-            ],200);
+        // return response()->json([
+        //         'data' => $product,
+        //         'msg2' => 'Producto creado con exito'
+        //     ],200);
+
+        return back()->with('success');
     }
 
     /**
@@ -72,7 +104,8 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        return view('pantallas.editProduct', compact('product'));
     }
 
     /**
@@ -89,13 +122,21 @@ class ProductsController extends Controller
         $product->description = $request->input('description');
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
-        $product->photo = $request->input('photo');
+        if($request->file('file'))
+        {
+            $file=$request->file('file');
+            $filename=time().'.'.$file->getClientOriginalExtension();
+            $request->file->move('stortage', $filename);
+            $product->photo=$filename;
+        }
         $product->save();
 
-        return response()->json([
-            'data' => $product,
-            'msg' => 'Actualizado con exito'
-        ],200);
+        return redirect('home');
+
+        // return response()->json([
+        //     'data' => $product,
+        //     'msg' => 'Actualizado con exito'
+        // ],200);
 
     }
 
@@ -111,9 +152,12 @@ class ProductsController extends Controller
 
         $product->delete();
 
-         return response()->json([
-            'data' => $product,
-            'msg' => 'Eliminado con exito'
-        ],200);
+        //  return response()->json([
+        //     'data' => $product,
+        //     'msg' => 'Eliminado con exito'
+        // ],200);
+        $success = 'Eliminado';
+
+        return redirect('/home')->with('success');
     }
 }
