@@ -81,7 +81,8 @@ class ProductsController extends Controller
         //         'msg2' => 'Producto creado con exito'
         //     ],200);
 
-        return back()->with('success');
+        $success = "Producto creado con exito";
+        return back()->with(compact('success'));
     }
 
     /**
@@ -131,7 +132,9 @@ class ProductsController extends Controller
         }
         $product->save();
 
-        return redirect('home');
+        $success = "Producto actualizado con exito";
+
+        return redirect('home')->with(compact('success'));
 
         // return response()->json([
         //     'data' => $product,
@@ -156,8 +159,10 @@ class ProductsController extends Controller
         //     'data' => $product,
         //     'msg' => 'Eliminado con exito'
         // ],200);
-        $success = 'Eliminado';
 
-        return redirect('/home')->with('success');
+
+            $danger = "Producto Eliminado con exito";
+
+        return redirect('/home')->with(compact('danger'));
     }
 }
