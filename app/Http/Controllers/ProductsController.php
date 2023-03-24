@@ -55,10 +55,14 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $product = new Product();
-        $product->product_name = $request->input('product_name');
-        $product->description = $request->input('description');
+
+        $product->name = $request->input('name');
+        $product->slug = $request->input('slug');
+        $product->details = $request->input('details');
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
+        $product->description = $request->input('description');
+
         //$product->photo = $request->input('photo');
 
         if($request->file('file'))
@@ -66,7 +70,7 @@ class ProductsController extends Controller
             $file=$request->file('file');
             $filename=time().'.'.$file->getClientOriginalExtension();
             $request->file->move('stortage', $filename);
-            $product->photo=$filename;
+            $product->image_path=$filename;
         }
         // $product->product_name = $request->product_name;
         // $product->description = $request->description;
@@ -119,16 +123,21 @@ class ProductsController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        $product->product_name = $request->input('product_name');
-        $product->description = $request->input('description');
+        $product->name = $request->input('name');
+        $product->slug = $request->input('slug');
+        $product->details = $request->input('details');
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
+        $product->description = $request->input('description');
+
+        //$product->photo = $request->input('photo');
+
         if($request->file('file'))
         {
             $file=$request->file('file');
             $filename=time().'.'.$file->getClientOriginalExtension();
             $request->file->move('stortage', $filename);
-            $product->photo=$filename;
+            $product->image_path=$filename;
         }
         $product->save();
 

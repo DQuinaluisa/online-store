@@ -32,10 +32,10 @@
             <div style="box-shadow: 10px 5px 5px rgb(180, 179, 179);" class="card text-center">
 
                 <div style="margin: 10%; border:none" class="card" >
-                    <img style="height: 25vh; border-radius:10% " src={{"http://localhost:8000/stortage/$items->photo"}} alt="">
+                    <img style="height: 25vh; border-radius:10% " src={{"http://localhost:8000/stortage/$items->image_path"}}  alt="">
                </div>
 
-               <h3 style="font-weight: 600;" >{{ $items->product_name }}</h3>
+               <h3 style="font-weight: 600;" >{{ $items->name }}</h3>
 
                {{-- <span>Detalles</span>
 
@@ -47,12 +47,23 @@
                         <h2 style="color:green" >${{ $items->price }}</h2>
                     </div>
                     <div class="col-md-6">
-                        <div style="padding-top: 15%">
-                            <button  class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping"></i></button>
-                        </div>
+                        <form action="{{ route('cart.store') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" value="{{ $items->id }}" id="id" name="id">
+                                        <input type="hidden" value="{{ $items->name }}" id="name" name="name">
+                                        <input type="hidden" value="{{ $items->price }}" id="price" name="price">
+                                        <input type="hidden" value="{{ $items->image_path }}" id="img" name="img">
+                                        <input type="hidden" value="{{ $items->slug }}" id="slug" name="slug">
+                                        <input type="hidden" value="1" id="quantity" name="quantity">
+                            <div style="padding-top: 15%">
+                                <button  class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping"></i></button>
+                            </div>
+                        </form>
+
 
                     </div>
                </div>
+
             </div>
         </div>
         @endforeach

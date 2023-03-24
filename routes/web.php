@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductsController;
-
+use App\Http\Controllers\CartController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -34,3 +34,11 @@ Route::get('editProduct/{id}', [ProductsController::class, 'edit'])->name('panta
 Route::patch('editProduct/{id}', [ProductsController::class, 'update'])->name('pantallas.editProduct');
 
 
+Route::get('/shop', [CartController::class, 'shop'])->name('shop');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+Route::get('/sale', [CartController::class, 'sale'])->name('sale');
+Route::post('/add', [CartController::class, 'add'])->name('cart.store');
+//Route::post('/list', [CartController::class, 'add'])->name('cart.store');
+Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');

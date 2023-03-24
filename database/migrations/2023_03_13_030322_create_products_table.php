@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('product_name');
-            $table->string('description');
-            $table->integer('price');
-            $table->integer('stock');
-            $table->text('photo');
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->string('details')->nullable();
+            $table->double('price');
+            $table->double('stock');
+            $table->text('description');
+
+            $table->string('image_path');
             $table->timestamps();
         });
     }
