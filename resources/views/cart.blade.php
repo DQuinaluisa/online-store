@@ -13,6 +13,15 @@
                 </button>
             </div>
         @endif
+
+        @if(session()->has('error_msg'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session()->get('error_msg') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         @if(session()->has('alert_msg'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session()->get('alert_msg') }}
@@ -113,8 +122,12 @@
                     </div>
                     <br><a href="{{ route('home') }}" class="btn btn-dark">Continue en la tienda</a>
 
+                       <a href="{{ route('sale') }}" class="btn btn-success">Finalizar Compra</a>
+
                 </div>
             @endif
+
+
         </div>
         <br><br>
     </div>

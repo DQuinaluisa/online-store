@@ -19,5 +19,11 @@ class Product extends Model
         'image_path',
     ];
 
+    // public function sales (){
+    //     return $this->belongsTo(Sales::class);
+    // }
 
+    public function productSales (){
+        return $this->belongsTo(ProductSale::class);
+    }
 }

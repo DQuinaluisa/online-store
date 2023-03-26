@@ -4,6 +4,23 @@
 
 <div class="container">
     <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            <h2>Factura</h2>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Finalizar Compra
+              </button>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="row">
         <div class="col-md-1">
 
         </div>
@@ -36,6 +53,63 @@
 
 
                     </tr>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Datos para la Factura</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action="{{ route('sale') }}" method="POST">
+
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Nombre del Cliente</label>
+                                            <input class="form-control" type="text" name="user_name" >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="">Cedula</label>
+                                            <input class="form-control" type="text" name="ci" >
+                                        </div>
+
+                                       {{ csrf_field() }}
+                                        @foreach ($cartCollection as $item )
+                                        <input type="hidden" value="{{ $item->id }}" id="product_id" name="product_id[]">
+                                        <input type="hidden" value="{{ $item->name }}" id="name" name="name[]">
+                                        <input type="hidden" value="{{ $item->price }}" id="price" name="price[]">
+                                        <input type="hidden" value="{{ $item->quantity }}" id="quantity" name="quantity[]">
+                                        @endforeach
+
+
+                                        <input type="hidden" value="{{ \Cart::getTotal() }}" id="subTotal" name="subTotal">
+                                        <input type="hidden" value="{{ \Cart::getTotal() * 0.12  }}" id="iva" name="iva">
+                                        <input type="hidden" value="{{ \Cart::getTotal() * 0.12 + \Cart::getTotal()  }}"  name="total">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Telefono</label>
+                                            <input class="form-control" type="text" name="phone" >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="">Fecha</label>
+                                            <input class="form-control" type="date" name="date" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-success">Comprar</button>
+                                </div>
+                            </form>
+
+                          </div>
+                        </div>
+                      </div>
+
                     @endforeach
 
 
@@ -48,23 +122,77 @@
 
                     </div>
                     <div class="col-md-6">
-                        <p>SubTotal  ${{ \Cart::get($items->id)->getPriceSum() }}<br></p>
-                        <hr>
-                        <p>IVA</p>
-                        <hr>
-                        <P>TOTAL</P>
-                        <hr>
+                        <div class="row">
+                            <div class="col-md-8">
 
-                        <hr>
+                                    <p>SubTotal  </p>
+
+                                    <p>IVA</p>
+
+                                    <P>TOTAL</P>
+
+                            </div>
+                            <div class="col-md-4">
+                                @if(count($cartCollection)>0)
+
+                                <p>$ {{ \Cart::getTotal() }}</p>
+
+                                <p> $ {{  \Cart::getTotal()  * 0.12  }}</p>
+                                <p>$ {{ \Cart::getTotal()  * 0.12 + \Cart::getTotal()  }}</p>
+
+
+
+                            @endif
+
+
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
               </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if(count($cartCollection)>0)
+                            <form action="{{ route('cart.clear') }}" method="POST">
+                                {{ csrf_field() }}
+                                <button class="btn btn-secondary btn-md">Cancelar Compra</button>
+                            </form>
+                        @endif
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('home') }}" class="btn btn-dark">Continue en la tienda</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-6">
+
+                </div>
+              </div>
+
+
         </div>
         <div class="col-md-1">
 
         </div>
     </div>
 </div>
+
+<!-- Button trigger modal -->
+
+
+  <!-- Modal -->
+
+
 
 
 @endsection
