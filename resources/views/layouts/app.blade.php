@@ -6,15 +6,16 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Scripts -->
     @vite(['resources/js/app.js'])
@@ -64,6 +65,7 @@
                                     <a  class="dropdown-item" href="{{ route('pantallas.createProduct') }}">Crear Producto</a>
                                     <a  class="dropdown-item" href="{{ route('pantallas.listProducts') }}">Lista Productos</a>
                                     <a  class="dropdown-item" href="{{ route('cart.index') }}">Carrito</a>
+                                    <a  class="dropdown-item" href="{{ route('listSales') }}">Comprobantes</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -87,19 +89,36 @@
     </div>
 </body>
 <script type="text/javascript">
-    // setTimeout(function () {
+    function validar() {
+      var cad = document.getElementById("ced").value.trim();
+      var total = 0;
+      var longitud = cad.length;
+      var longcheck = longitud - 1;
 
-    //     // Closing the alert
-    //     $('#alert').alert('close');
-    // }, 2000);
+      if (cad !== "" && longitud === 10){
+        for(i = 0; i < longcheck; i++){
+          if (i%2 === 0) {
+            var aux = cad.charAt(i) * 2;
+            if (aux > 9) aux -= 9;
+            total += aux;
+          } else {
+            total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
+          }
+        }
 
-    window.setTimeout(function() {
-    $("#alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove();
-    });
-}, 4000);
+        total = total % 10 ? 10 - total % 10 : 0;
 
+        if (cad.charAt(longitud-1) == total) {
 
+          document.getElementById("salida").innerHTML = ("Cedula Válida");
+          document.getElementById('submitButton').disabled = false;
 
-</script>
+        }else{
+          document.getElementById("salida").innerHTML = ("Cedula Inválida");
+          document.getElementById('submitButton').disabled = true;
+        }
+      }
+    }
+  </script>
+
 </html>

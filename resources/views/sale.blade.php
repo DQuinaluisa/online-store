@@ -73,7 +73,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Cedula</label>
-                                            <input class="form-control" type="text" name="ci" >
+                                            <input class="form-control" type="text" id="ced" name="ci" onchange="validar()" >
+                                            <p style="color: red"  id="salida"></p>
                                         </div>
 
                                        {{ csrf_field() }}
@@ -102,7 +103,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="submit" class="btn btn-success">Comprar</button>
+                                  <button type="submit" class="btn btn-success" id="submitButton" >Comprar</button>
                                 </div>
                             </form>
 
@@ -129,7 +130,8 @@
 
                                     <p>IVA</p>
 
-                                    <P>TOTAL</P>
+                                <p style="font-weight: 700">TOTAL</p>
+
 
                             </div>
                             <div class="col-md-4">
@@ -138,7 +140,7 @@
                                 <p>$ {{ \Cart::getTotal() }}</p>
 
                                 <p> $ {{  \Cart::getTotal()  * 0.12  }}</p>
-                                <p>$ {{ \Cart::getTotal()  * 0.12 + \Cart::getTotal()  }}</p>
+                                <p style="font-weight: 700; ">$ {{ \Cart::getTotal()  * 0.12 + \Cart::getTotal()  }}</p>
 
 
 
