@@ -14,7 +14,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sales::all();
+        $sales = Sales::all()->sortByDesc('id');
        // dd($sales);
        return view('listSales', ['sales' => $sales]);
 //   return response()->json([
