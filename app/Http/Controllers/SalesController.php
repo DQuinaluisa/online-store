@@ -14,7 +14,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sales::all();
+        $sales = Sales::latest('id')->first();
        // dd($sales);
         return view('listSales', ['sales' => $sales]);
     }
