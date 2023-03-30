@@ -16,10 +16,10 @@ class SalesController extends Controller
     {
         $sales = Sales::latest('id')->first();
        // dd($sales);
-        //return view('listSales', ['sales' => $sales]);
-  return response()->json([
-            'data' => $sales
-        ]);
+       return view('listSales', ['sales' => $sales]);
+//   return response()->json([
+//             'data' => $sales
+//         ]);
 
     }
 
