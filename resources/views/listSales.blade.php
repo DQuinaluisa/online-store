@@ -17,7 +17,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Fecha: </label>
-                                        {{-- <samp>{{ $item->date }}</samp> --}}
+                                        <samp>{{ $item->date }}</samp>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Cliente: </label>
