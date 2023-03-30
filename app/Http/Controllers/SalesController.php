@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sales;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 class SalesController extends Controller
 {
     /**
@@ -14,16 +14,13 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = DB::table('sales')
-        ->select('*')
-        ->orderBy('sales.id', 'desc')
-        ->get();
+        $sales = Sales::latest('id')->first();
        // dd($sales);
         //return view('listSales', ['sales' => $sales]);
-
-         return response()->json([
+  return response()->json([
             'data' => $sales
         ]);
+
     }
 
     /**
