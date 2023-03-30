@@ -19,7 +19,11 @@ class SalesController extends Controller
         ->orderBy('sales.id', 'desc')
         ->get();
        // dd($sales);
-        return view('listSales', ['sales' => $sales]);
+        //return view('listSales', ['sales' => $sales]);
+
+         return response()->json([
+            'data' => $sales
+        ]);
     }
 
     /**
