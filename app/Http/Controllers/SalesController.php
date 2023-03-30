@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sales;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class SalesController extends Controller
 {
     /**
@@ -14,7 +14,10 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sales::latest('id')->first();
+        $sales = DB::table('sales')
+        ->select('*')
+        ->orderBy('sales.id', 'desc')
+        ->get();
        // dd($sales);
         return view('listSales', ['sales' => $sales]);
     }
